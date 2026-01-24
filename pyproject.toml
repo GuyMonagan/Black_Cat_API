@@ -1,0 +1,31 @@
+[project]
+name = "black-cat-api"
+version = "0.1.0"
+description = "backend-приложение для управления книжной библиотекой"
+authors = [
+    {name = "GuyMonagan",email = "werevalkury@gmail.com"}
+]
+package-mode = false
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "django (>=5.2,<6.0)",
+    "djangorestframework (>=3.16.1,<4.0.0)",
+    "djangorestframework-simplejwt (>=5.5.1,<6.0.0)",
+    "python-decouple (>=3.8,<4.0)",
+    "psycopg2-binary (>=2.9.11,<3.0.0)",
+    "drf-yasg (>=1.21.14,<2.0.0)",
+    "pillow (>=12.1.0,<13.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "black (>=26.1.0,<27.0.0)",
+    "flake8 (>=7.3.0,<8.0.0)",
+    "isort (>=7.0.0,<8.0.0)"
+]

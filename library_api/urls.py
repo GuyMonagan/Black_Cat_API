@@ -30,6 +30,7 @@ from rest_framework_simplejwt.views import (
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.permissions import AllowAny
+from reviews.views import ReviewViewSet
 
 
 schema_view = get_schema_view(
@@ -48,6 +49,7 @@ router.register(r'authors', AuthorViewSet)
 router.register(r'genres', GenreViewSet)
 router.register(r'locations', LocationViewSet)
 router.register(r'borrowings', BorrowingViewSet)
+router.register(r'reviews', ReviewViewSet)
 
 
 urlpatterns = [

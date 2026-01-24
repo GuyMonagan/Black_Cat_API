@@ -1,0 +1,4 @@
+[
+  { "model": "books.author", "pk": 1, "fields": { "name": "Фёдор Достоевский" } },
+  { "model": "books.author", "pk": 2, "fields": { "name": "Урсула Ле Гуин" } }
+]

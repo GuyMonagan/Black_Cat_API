@@ -1,0 +1,28 @@
+[
+  {
+    "model": "books.book",
+    "pk": 1,
+    "fields": {
+      "title": "Преступление и наказание",
+      "description": "Классика страдания.",
+      "author": 1,
+      "genre": 1,
+      "total_count": 3,
+      "available_count": 2,
+      "publisher": "Азбука",
+      "publication_year": 2021,
+      "location": 1
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 2,
+    "fields": {
+      "title": "Волшебник Земноморья",
+      "author": 2,
+      "genre": 2,
+      "total_count": 2,
+      "available_count": 2
+    }
+  }
+]

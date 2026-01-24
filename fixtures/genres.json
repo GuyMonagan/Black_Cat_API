@@ -1,0 +1,4 @@
+[
+  { "model": "books.genre", "pk": 1, "fields": { "name": "Роман" } },
+  { "model": "books.genre", "pk": 2, "fields": { "name": "Фантастика" } }
+]

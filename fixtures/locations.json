@@ -1,0 +1,10 @@
+[
+  {
+    "model": "books.location",
+    "pk": 1,
+    "fields": {
+      "address": "Главный зал",
+      "shelf_code": "A-3"
+    }
+  }
+]

@@ -27,7 +27,17 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         return [IsAuthenticated()]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        borrowing = serializer.save(user=self.request.user)
+
+        from core.telegram import send_telegram_message
+
+        user = self.request.user
+        if user.telegram_chat_id:
+            message = (
+                f"📚 Вы взяли книгу «{borrowing.book.title}».\n"
+                f"Дата возврата: {borrowing.expected_return_date.strftime('%d.%m.%Y')}."
+            )
+            send_telegram_message(user.telegram_chat_id, message)
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:

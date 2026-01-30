@@ -11,11 +11,36 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from decouple import config
+from decouple import config, Csv
+
+AUTH_USER_MODEL = 'users.User'
+
+
+CELERY_BROKER_URL = config(
+    "CELERY_BROKER_URL",
+    default="redis://redis:6379/0"
+)
+
+CELERY_RESULT_BACKEND = config(
+    "CELERY_RESULT_BACKEND",
+    default="redis://redis:6379/0"
+)
+
+CELERY_ACCEPT_CONTENT = config(
+    "CELERY_ACCEPT_CONTENT",
+    cast=Csv(),
+    default="json"
+)
+
+CELERY_TASK_SERIALIZER = config(
+    "CELERY_TASK_SERIALIZER",
+    default="json"
+)
 
 
 AUTH_USER_MODEL = 'users.User'
 
+TELEGRAM_BOT_TOKEN = config("TELEGRAM_BOT_TOKEN")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,7 +73,8 @@ INSTALLED_APPS = [
     'users',
     'books',
     'borrowings',
-    'reviews'
+    'reviews',
+    'core'
 ]
 
 

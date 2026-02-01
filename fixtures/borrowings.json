@@ -1,0 +1,35 @@
+[
+  {
+    "model": "borrowings.borrowing",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "book": 3,
+      "borrow_date": "2026-01-25",
+      "return_date": null,
+      "is_returned": false
+    }
+  },
+  {
+    "model": "borrowings.borrowing",
+    "pk": 2,
+    "fields": {
+      "user": 1,
+      "book": 4,
+      "borrow_date": "2026-01-15",
+      "return_date": "2026-01-22",
+      "is_returned": true
+    }
+  },
+  {
+    "model": "borrowings.borrowing",
+    "pk": 3,
+    "fields": {
+      "user": 2,
+      "book": 5,
+      "borrow_date": "2026-01-10",
+      "return_date": null,
+      "is_returned": false
+    }
+  }
+]

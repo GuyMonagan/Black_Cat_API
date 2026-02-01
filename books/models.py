@@ -77,5 +77,9 @@ class Book(models.Model):
     isbn = models.CharField(max_length=20, blank=True, null=True, unique=True)
     publication_year = models.PositiveIntegerField(blank=True, null=True)
 
+
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.title

@@ -3,20 +3,35 @@
     "model": "users.user",
     "pk": 1,
     "fields": {
-      "email": "admin@library.local",
-      "password": "pbkdf2_sha256$600000$demo$HASH",
-      "role": "admin",
-      "is_staff": true,
-      "is_superuser": true
+      "email": "reader1@example.com",
+      "password": "pbkdf2_sha256$600000$FAKEHASH",
+      "first_name": "Анна",
+      "last_name": "Петрова",
+      "role": "reader"
     }
   },
   {
     "model": "users.user",
     "pk": 2,
     "fields": {
-      "email": "reader@library.local",
-      "password": "pbkdf2_sha256$600000$demo$HASH",
-      "role": "reader"
+      "email": "librarian@example.com",
+      "password": "pbkdf2_sha256$600000$FAKEHASH",
+      "first_name": "Борис",
+      "last_name": "Книгочей",
+      "role": "librarian"
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+      "email": "admin@example.com",
+      "password": "pbkdf2_sha256$600000$FAKEHASH",
+      "first_name": "Вера",
+      "last_name": "Админова",
+      "role": "admin",
+      "is_staff": true,
+      "is_superuser": true
     }
   }
 ]

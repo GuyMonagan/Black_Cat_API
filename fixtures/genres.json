@@ -1,4 +1,37 @@
 [
-  { "model": "books.genre", "pk": 1, "fields": { "name": "Роман" } },
-  { "model": "books.genre", "pk": 2, "fields": { "name": "Фантастика" } }
+  {
+    "model": "books.genre",
+    "pk": 1,
+    "fields": {
+      "name": "Фэнтези"
+    }
+  },
+  {
+    "model": "books.genre",
+    "pk": 2,
+    "fields": {
+      "name": "Научная фантастика"
+    }
+  },
+    {
+    "model": "books.genre",
+    "pk": 3,
+    "fields": {
+      "name": "Русская классика"
+    }
+  },
+    {
+    "model": "books.genre",
+    "pk": 4,
+    "fields": {
+      "name": "Антиутопия"
+    }
+  },
+    {
+    "model": "books.genre",
+    "pk": 5,
+    "fields": {
+      "name": "Эпическое фэнтези"
+    }
+  }
 ]

@@ -24,6 +24,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    avatar = serializers.ImageField(read_only=True)
     class Meta:
         model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'role']
+        fields = ['id', 'email', 'first_name', 'last_name', 'role', 'avatar']
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'avatar']
+

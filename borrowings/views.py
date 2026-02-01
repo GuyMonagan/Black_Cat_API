@@ -29,7 +29,7 @@ class BorrowingViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         borrowing = serializer.save(user=self.request.user)
 
-        from core.telegram import send_telegram_message
+        from core.telegram_bot import send_telegram_message
 
         user = self.request.user
         if user.telegram_chat_id:

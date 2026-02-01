@@ -15,6 +15,10 @@ def api_client():
 
 @pytest.fixture
 def sample_data():
+    """
+    Создаёт пользователя и две книги с общими автором и жанром.
+    Возвращает user, book1, book2.
+    """
     user = User.objects.create_user(email="reader@lib.com", password="123", role="reader")
     author = Author.objects.create(name="Толстой")
     genre = Genre.objects.create(name="Роман")
@@ -26,6 +30,10 @@ def sample_data():
 
 @pytest.mark.django_db
 def test_popular_books(api_client, sample_data):
+    """
+    Проверяет, что эндпоинт popular_books возвращает книги в порядке популярности,
+    и корректно считает количество заимствований.
+    """
     user, book1, book2 = sample_data
 
     Borrowing.objects.create(user=user, book=book1)
@@ -40,6 +48,10 @@ def test_popular_books(api_client, sample_data):
 
 @pytest.mark.django_db
 def test_debtors_list(api_client, sample_data):
+    """
+    Проверяет, что эндпоинт debtors возвращает пользователей,
+    не вернувших книгу вовремя (дата возврата уже в прошлом).
+    """
     user, book1, _ = sample_data
     yesterday = timezone.now().date() - timedelta(days=1)
 
@@ -60,6 +72,10 @@ def test_debtors_list(api_client, sample_data):
 
 @pytest.mark.django_db
 def test_lost_books(api_client, sample_data):
+    """
+    Проверяет, что эндпоинт lost_books возвращает книги,
+    просроченные более чем на 30 дней.
+    """
     user, book1, _ = sample_data
     overdue = timezone.now().date() - timedelta(days=31)
 

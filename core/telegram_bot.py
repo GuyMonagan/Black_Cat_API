@@ -4,6 +4,10 @@ from users.models import TelegramToken
 
 
 def connect(update, context):
+    """
+    Обрабатывает команду /connect от пользователя Telegram.
+    Привязывает Telegram-аккаунт к пользователю по одноразовому токену.
+    """
     try:
         token = context.args[0]
     except IndexError:
@@ -24,7 +28,7 @@ def connect(update, context):
 def send_telegram_message(chat_id: str, message: str) -> bool:
     """
     Отправляет сообщение в Telegram-пользователю через Bot API.
-    Возвращает True, если успешно, False иначе.
+    Возвращает True при успехе, иначе False.
     """
     if not chat_id:
         return False

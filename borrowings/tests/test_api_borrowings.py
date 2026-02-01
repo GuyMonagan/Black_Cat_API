@@ -12,6 +12,9 @@ def api_client():
 
 @pytest.mark.django_db
 def test_reader_can_create_borrowing(api_client):
+    """
+    Проверяет, что читатель может создать аренду книги.
+    """
     user = User.objects.create_user(email="reader@lib.com", password="123", role="reader")
     api_client.force_authenticate(user=user)
 
@@ -34,12 +37,18 @@ def test_reader_can_create_borrowing(api_client):
 
 @pytest.mark.django_db
 def test_anonymous_cannot_create_borrowing(api_client):
+    """
+    Проверяет, что неавторизованный пользователь не может создать аренду.
+    """
     response = api_client.post("/api/borrowings/", {})
     assert response.status_code == 401
 
 
 @pytest.mark.django_db
 def test_reader_cannot_update_or_delete(api_client):
+    """
+    Проверяет, что читатель не может редактировать или удалять аренду.
+    """
     reader = User.objects.create_user(email="reader@lib.com", password="123", role="reader")
     api_client.force_authenticate(user=reader)
 
@@ -60,6 +69,9 @@ def test_reader_cannot_update_or_delete(api_client):
 
 @pytest.mark.django_db
 def test_reader_sees_only_own_borrowings(api_client):
+    """
+    Проверяет, что читатель видит только свои аренды.
+    """
     reader = User.objects.create_user(email="reader1@lib.com", password="123", role="reader")
     other_reader = User.objects.create_user(email="reader2@lib.com", password="123", role="reader")
     api_client.force_authenticate(user=reader)
@@ -79,6 +91,9 @@ def test_reader_sees_only_own_borrowings(api_client):
 
 @pytest.mark.django_db
 def test_admin_sees_all_borrowings(api_client):
+    """
+    Проверяет, что админ видит все аренды в системе.
+    """
     admin = User.objects.create_user(email="admin@lib.com", password="123", role="admin")
     api_client.force_authenticate(user=admin)
 

@@ -4,6 +4,12 @@ from users.models import User
 from books.models import Book
 
 class Review(models.Model):
+    """
+    Модель отзыва на книгу.
+
+    Каждый отзыв связан с пользователем и книгой.
+    Один пользователь может оставить только один отзыв на одну книгу.
+    """
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='reviews')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
     text = models.TextField()

@@ -7,6 +7,10 @@ from core.telegram_bot import connect
 
 
 class Command(BaseCommand):
+    """
+    Команда для запуска Telegram-бота через Django manage.py.
+    Используется как: python manage.py startbot
+    """
     help = "Запускает Telegram-бота"
 
     def handle(self, *args, **options):

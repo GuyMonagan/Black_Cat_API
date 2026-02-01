@@ -13,6 +13,9 @@ def api_client():
 
 @pytest.mark.django_db
 def test_user_can_register(api_client):
+    """
+    Проверяет, что пользователь может зарегистрироваться через API.
+    """
     data = {
         "email": "newuser@lib.com",
         "password": "securepassword123",
@@ -26,6 +29,9 @@ def test_user_can_register(api_client):
 
 @pytest.mark.django_db
 def test_user_can_retrieve_own_profile(api_client):
+    """
+    Проверяет, что пользователь может получить свои данные (/me).
+    """
     user = User.objects.create_user(email="me@lib.com", password="pass")
     api_client.force_authenticate(user=user)
 
@@ -36,6 +42,9 @@ def test_user_can_retrieve_own_profile(api_client):
 
 @pytest.mark.django_db
 def test_user_can_update_own_profile(api_client):
+    """
+    Проверяет, что пользователь может обновить своё имя через эндпоинт /me/update/.
+    """
     user = User.objects.create_user(email="update@lib.com", password="pass")
     api_client.force_authenticate(user=user)
 
@@ -47,6 +56,9 @@ def test_user_can_update_own_profile(api_client):
 
 @pytest.mark.django_db
 def test_user_gets_telegram_token(api_client):
+    """
+    Проверяет, что авторизованный пользователь может получить Telegram-токен.
+    """
     user = User.objects.create_user(email="tg@lib.com", password="pass")
     api_client.force_authenticate(user=user)
 

@@ -8,6 +8,9 @@ from django.utils import timezone
 
 @pytest.mark.django_db
 def test_borrowing_str():
+    """
+    Проверяет, что метод __str__() у Borrowing возвращает корректную строку.
+    """
     user = User.objects.create_user(email="user@example.com", password="123", role="reader")
     author = Author.objects.create(name="Гоголь")
     genre = Genre.objects.create(name="Ужасы")
@@ -20,6 +23,9 @@ def test_borrowing_str():
 
 @pytest.mark.django_db
 def test_borrowing_defaults():
+    """
+    Проверяет значения по умолчанию для аренды (is_returned, borrow_date).
+    """
     user = User.objects.create_user(email="user@example.com", password="123", role="reader")
     author = Author.objects.create(name="Пушкин")
     genre = Genre.objects.create(name="Поэзия")

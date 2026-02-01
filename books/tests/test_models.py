@@ -3,21 +3,33 @@ from books.models import Author, Genre, Location, Book
 
 @pytest.mark.django_db
 def test_author_str():
+    """
+    Проверяет строковое представление модели Author.
+    """
     author = Author.objects.create(name="Тест Автор")
     assert str(author) == "Тест Автор"
 
 @pytest.mark.django_db
 def test_genre_str():
+    """
+    Проверяет строковое представление модели Genre.
+    """
     genre = Genre.objects.create(name="Хоррор")
     assert str(genre) == "Хоррор"
 
 @pytest.mark.django_db
 def test_location_str():
+    """
+    Проверяет строковое представление модели Location.
+    """
     loc = Location.objects.create(address="Читальный зал", shelf_code="B-12")
     assert str(loc) == "Читальный зал — ячейка B-12"
 
 @pytest.mark.django_db
 def test_book_str_and_fields():
+    """
+    Проверяет строковое представление и ключевые поля модели Book.
+    """
     author = Author.objects.create(name="Автор")
     genre = Genre.objects.create(name="Драма")
     location = Location.objects.create(address="Архив", shelf_code="X-1")

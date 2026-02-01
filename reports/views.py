@@ -12,10 +12,17 @@ from rest_framework.permissions import AllowAny
 
 
 class ReportsViewSet(viewsets.ViewSet):
+    """
+    ViewSet для получения различных отчётов по библиотеке.
+    Доступ открыт всем пользователям (AllowAny).
+    """
     permission_classes = [AllowAny]
 
     @action(detail=False, methods=['get'])
     def popular_books(self, request):
+        """
+        Возвращает топ-10 самых часто арендуемых книг.
+        """
         books = (
             Book.objects.annotate(borrow_count=Count("borrowing"))
             .order_by("-borrow_count")[:10]
@@ -28,6 +35,9 @@ class ReportsViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['get'])
     def debtors(self, request):
+        """
+        Возвращает список пользователей, которые не вернули книги вовремя.
+        """
         today = now().date()
         borrowings = Borrowing.objects.filter(
             expected_return_date__lt=today,
@@ -46,6 +56,9 @@ class ReportsViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['get'])
     def lost_books(self, request):
+        """
+        Возвращает список книг, которые не вернули более 30 дней.
+        """
         threshold = now().date() - timedelta(days=30)
         lost = Borrowing.objects.filter(
             expected_return_date__lt=threshold,

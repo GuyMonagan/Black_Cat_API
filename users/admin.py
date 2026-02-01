@@ -4,6 +4,10 @@ from .models import User, TelegramToken
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
+    """
+    Админка для модели пользователя.
+    Включает поля Telegram, роли и аватар.
+    """
     model = User
     list_display = ("email", "role", "is_staff", "telegram_chat_id")
     list_filter = ("role", "is_staff", "is_superuser")
@@ -25,5 +29,8 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(TelegramToken)
 class TelegramTokenAdmin(admin.ModelAdmin):
+    """
+    Админка для одноразовых Telegram-токенов.
+    """
     list_display = ("user", "token", "created_at")
     readonly_fields = ("token", "created_at")

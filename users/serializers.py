@@ -6,6 +6,10 @@ User = get_user_model()
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для регистрации пользователя.
+    Валидирует пароль и требует email.
+    """
     password = serializers.CharField(write_only=True, validators=[validate_password])
     email = serializers.EmailField(required=True)
 
@@ -24,6 +28,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для отображения информации о пользователе.
+    Включает аватар, имя и роль.
+    """
     avatar = serializers.ImageField(read_only=True)
     class Meta:
         model = User
@@ -31,6 +39,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для обновления профиля пользователя.
+    Позволяет редактировать имя, фамилию и аватар.
+    """
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'avatar']

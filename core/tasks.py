@@ -5,6 +5,9 @@ from core.telegram_bot import send_telegram_message
 
 @shared_task
 def send_due_soon_reminders():
+    """
+    Отправляет напоминания пользователям, у которых завтра истекает срок аренды книги.
+    """
     tomorrow = date.today() + timedelta(days=1)
     borrowings = Borrowing.objects.filter(expected_return_date=tomorrow, is_returned=False)
 

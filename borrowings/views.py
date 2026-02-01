@@ -8,6 +8,10 @@ from rest_framework import serializers
 
 
 class BorrowingViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet для управления арендой книг.
+    Читатели могут видеть и создавать свои аренды, сотрудники — всё остальное.
+    """
     queryset = Borrowing.objects.all()
     permission_classes = [IsAuthenticated]
 
@@ -15,12 +19,21 @@ class BorrowingViewSet(viewsets.ModelViewSet):
     filterset_fields = ['book', 'is_returned']
 
     def get_queryset(self):
+        """
+        Ограничение доступа: читатели видят только свои аренды.
+        """
         user = self.request.user
         if user.role == 'reader':
             return Borrowing.objects.filter(user=user).order_by('-borrow_date')
         return Borrowing.objects.all().order_by('-borrow_date')
 
     def get_permissions(self):
+        """
+        Установка прав доступа в зависимости от действия:
+        - создать может только читатель,
+        - редактировать и удалять — только библиотекарь или админ,
+        - остальные действия доступны аутентифицированным пользователям.
+        """
         if self.action in ['create']:
             return [IsReader()]
         elif self.action in ['update', 'partial_update', 'destroy']:
@@ -28,6 +41,12 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         return [IsAuthenticated()]
 
     def perform_create(self, serializer):
+        """
+        При создании аренды:
+        - Проверяется наличие книги,
+        - Уменьшается доступное количество,
+        - Отправляется уведомление в Telegram (если настроено).
+        """
         book = serializer.validated_data["book"]
 
         if book.available_count < 1:
@@ -53,6 +72,11 @@ class BorrowingViewSet(viewsets.ModelViewSet):
             send_telegram_message(user.telegram_chat_id, message)
 
     def get_serializer_class(self):
+        """
+        Возвращает сериализатор в зависимости от действия:
+        - при создании/обновлении используется сериализатор с валидацией,
+        - иначе — для отображения полной информации.
+        """
         if self.action in ['create', 'update', 'partial_update']:
             return BorrowingCreateSerializer
         return BorrowingSerializer

@@ -13,6 +13,9 @@ def api_client():
 @pytest.mark.django_db
 @patch("core.telegram_bot.send_telegram_message")
 def test_telegram_sent_on_borrowing(mock_send, api_client):
+    """
+    Проверяет, что при создании аренды с chat_id вызывается отправка сообщения в Telegram.
+    """
     user = User.objects.create_user(
         email="reader@lib.com",
         password="123",

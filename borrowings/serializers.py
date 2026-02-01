@@ -5,6 +5,10 @@ from users.serializers import UserSerializer
 
 
 class BorrowingSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для отображения информации об аренде книги.
+    Включает данные о пользователе и книге.
+    """
     user = UserSerializer(read_only=True)
     book = BookSerializer()
 
@@ -14,6 +18,10 @@ class BorrowingSerializer(serializers.ModelSerializer):
 
 
 class BorrowingCreateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для создания новой аренды книги.
+    Проверяет, что дата возврата не раньше даты заимствования.
+    """
     expected_return_date = serializers.DateField(required=True)
 
     class Meta:
@@ -21,6 +29,9 @@ class BorrowingCreateSerializer(serializers.ModelSerializer):
         fields = ['book', 'borrow_date', 'expected_return_date']
 
     def validate(self, data):
+        """
+        Проверка: дата возврата не может быть раньше даты заимствования.
+        """
         borrow = data.get("borrow_date")
         expected = data.get("expected_return_date")
 

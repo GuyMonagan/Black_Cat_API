@@ -7,6 +7,9 @@ from books.models import Book, Author, Genre, Location
 
 @pytest.mark.django_db
 def test_book_list_returns_books():
+    """
+    Проверяет, что GET-запрос к списку книг возвращает 200 и список с ключом 'title'.
+    """
     client = APIClient()
 
     response = client.get("/api/books/")
@@ -18,6 +21,9 @@ def test_book_list_returns_books():
 
 @pytest.mark.django_db
 def test_librarian_can_create_book():
+    """
+    Проверяет, что библиотекарь может создать книгу и получает 201.
+    """
     user = User.objects.create_user(
         email="lib@example.com", password="testpass", role="librarian"
     )
@@ -48,6 +54,9 @@ def test_librarian_can_create_book():
 ])
 @pytest.mark.django_db
 def test_book_creation_permissions_by_role(user_role, expected_status):
+    """
+    Проверяет права доступа на создание книги по ролям (читатель — нельзя, библиотекарь — можно).
+    """
     client = APIClient()
     user = User.objects.create_user(
         email=f"{user_role}@example.com",
@@ -72,6 +81,9 @@ def test_book_creation_permissions_by_role(user_role, expected_status):
 
 @pytest.mark.django_db
 def test_anonymous_user_cannot_create_book():
+    """
+    Проверяет, что неавторизованный пользователь не может создать книгу (ожидается 401).
+    """
     client = APIClient()
 
     author = Author.objects.create(name="Автор")
@@ -91,11 +103,17 @@ def test_anonymous_user_cannot_create_book():
 
 @pytest.fixture
 def api_client():
+    """
+    Возвращает экземпляр APIClient.
+    """
     return APIClient()
 
 
 @pytest.fixture
 def book_data(db):
+    """
+    Создаёт фикстуру с 6 книгами, автором, жанром и местом хранения.
+    """
     author = Author.objects.create(name="Лев Толстой")
     genre = Genre.objects.create(name="Роман")
     location = Location.objects.create(address="Зал 1", shelf_code="A1")
@@ -116,6 +134,9 @@ def book_data(db):
 
 
 def test_book_list_pagination(api_client, book_data):
+    """
+    Проверяет, что пагинация работает корректно (возвращается 5 из 6 книг).
+    """
     url = reverse("book-list")
     response = api_client.get(url)
 
@@ -126,6 +147,9 @@ def test_book_list_pagination(api_client, book_data):
 
 
 def test_book_search(api_client, book_data):
+    """
+    Проверяет, что поиск по названию книги возвращает нужную книгу.
+    """
     url = reverse("book-list")
     response = api_client.get(url, {"search": "Книга 6"})
 
@@ -135,6 +159,9 @@ def test_book_search(api_client, book_data):
 
 
 def test_book_ordering(api_client, book_data):
+    """
+    Проверяет сортировку по убыванию года публикации.
+    """
     url = reverse("book-list")
     response = api_client.get(url, {"ordering": "-publication_year"})
 
@@ -144,6 +171,9 @@ def test_book_ordering(api_client, book_data):
 
 
 def test_book_filter(api_client, book_data):
+    """
+    Проверяет фильтрацию по жанру.
+    """
     genre_id = book_data[0].genre.id
     url = reverse("book-list")
     response = api_client.get(url, {"genre": genre_id})
@@ -154,6 +184,9 @@ def test_book_filter(api_client, book_data):
 
 @pytest.mark.django_db
 def test_cannot_create_book_without_title(api_client):
+    """
+    Проверяет, что создание книги без названия вызывает ошибку валидации.
+    """
     user = User.objects.create_user(
         email="lib@example.com",
         password="testpass",
@@ -177,6 +210,9 @@ def test_cannot_create_book_without_title(api_client):
 
 @pytest.mark.django_db
 def test_book_list_returns_nested_author(api_client, book_data):
+    """
+    Проверяет, что автор в списке книг возвращается как вложенный словарь.
+    """
     response = api_client.get(reverse("book-list"))
 
     book = response.data["results"][0]
@@ -187,6 +223,9 @@ def test_book_list_returns_nested_author(api_client, book_data):
 
 @pytest.mark.django_db
 def test_available_count_cannot_exceed_total(api_client):
+    """
+    Проверяет, что нельзя создать книгу, у которой доступных копий больше, чем всего.
+    """
     user = User.objects.create_user(
         email="lib@example.com",
         password="testpass",

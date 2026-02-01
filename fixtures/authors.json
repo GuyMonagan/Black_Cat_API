@@ -1,4 +1,7 @@
 [
   { "model": "books.author", "pk": 1, "fields": { "name": "Фёдор Достоевский" } },
-  { "model": "books.author", "pk": 2, "fields": { "name": "Урсула Ле Гуин" } }
+  { "model": "books.author", "pk": 2, "fields": { "name": "Урсула Ле Гуин" } },
+  { "model": "books.author", "pk": 3, "fields": { "name": "Джон Рональд Руэл Толкин" } },
+  { "model": "books.author", "pk": 4, "fields": { "name": "Рэй Брэдбери" } },
+  { "model": "books.author", "pk": 5, "fields": { "name": "Джордж Р.Р. Мартин" } }
 ]

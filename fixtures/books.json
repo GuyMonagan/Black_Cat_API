@@ -6,7 +6,7 @@
       "title": "Преступление и наказание",
       "description": "Классика страдания.",
       "author": 1,
-      "genre": 1,
+      "genre": 3,
       "total_count": 3,
       "available_count": 2,
       "publisher": "Азбука",
@@ -20,9 +20,57 @@
     "fields": {
       "title": "Волшебник Земноморья",
       "author": 2,
-      "genre": 2,
+      "genre": 1,
       "total_count": 2,
       "available_count": 2
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 3,
+    "fields": {
+      "title": "Властелин колец",
+      "description": "Эпическая сага о Средиземье.",
+      "author": 3,
+      "genre": 5,
+      "total_count": 5,
+      "available_count": 3,
+      "location": 1,
+      "publisher": "АСТ",
+      "isbn": "978-5-17-070777-0",
+      "publication_year": 1954
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 4,
+    "fields": {
+      "title": "451° по Фаренгейту",
+      "description": "Антиутопия о мире без книг.",
+      "author": 4,
+      "genre": 4,
+      "total_count": 4,
+      "available_count": 2,
+      "location": 2,
+      "publisher": "Эксмо",
+      "isbn": "978-5-699-54540-6",
+      "publication_year": 1953
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 5,
+    "fields": {
+      "title": "Игра престолов",
+      "description": "Битва за Железный трон.",
+      "author": 5,
+      "genre": 5,
+      "total_count": 6,
+      "available_count": 6,
+      "location": 3,
+      "publisher": "Дом книг",
+      "isbn": "978-5-17-083165-9",
+      "publication_year": 1996
     }
   }
 ]

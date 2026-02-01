@@ -1,0 +1,62 @@
+[
+  {
+    "model": "reviews.review",
+    "pk": 1,
+    "fields": {
+      "book": 1,
+      "user": 1,
+      "text": "Глубокая, мрачная и очень русская книга. Понравилось.",
+      "rating": 5,
+      "created_at": "2026-01-22T12:00:00Z",
+      "is_approved": true
+    }
+  },
+  {
+    "model": "reviews.review",
+    "pk": 2,
+    "fields": {
+      "book": 2,
+      "user": 2,
+      "text": "Сказочная атмосфера и интересный мир, но хотелось бы больше действия.",
+      "rating": 4,
+      "created_at": "2026-01-24T15:30:00Z",
+      "is_approved": true
+    }
+  },
+  {
+    "model": "reviews.review",
+    "pk": 3,
+    "fields": {
+      "book": 3,
+      "user": 1,
+      "text": "Просто великолепно. Настоящий шедевр.",
+      "rating": 5,
+      "created_at": "2026-01-18T10:15:00Z",
+      "is_approved": true
+    }
+  },
+  {
+    "model": "reviews.review",
+    "pk": 4,
+    "fields": {
+      "book": 4,
+      "user": 3,
+      "text": "Мрачновато, но заставляет задуматься. Актуально и сейчас.",
+      "rating": 5,
+      "created_at": "2026-01-25T09:45:00Z",
+      "is_approved": true
+    }
+  },
+  {
+    "model": "reviews.review",
+    "pk": 5,
+    "fields": {
+      "book": 5,
+      "user": 2,
+      "text": "Много героев, тяжело запомнить всех. Но сюжет затягивает.",
+      "rating": 4,
+      "created_at": "2026-01-26T17:00:00Z",
+      "is_approved": true
+    }
+  }
+]

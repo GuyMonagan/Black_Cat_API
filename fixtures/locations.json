@@ -6,5 +6,29 @@
       "address": "Главный зал",
       "shelf_code": "A-3"
     }
+  },
+    {
+    "model": "books.location",
+    "pk": 2,
+    "fields": {
+      "address": "Библиотека, полка 1",
+      "shelf_code": "A1"
+    }
+  },
+  {
+    "model": "books.location",
+    "pk": 3,
+    "fields": {
+      "address": "Библиотека, полка 2",
+      "shelf_code": "A2"
+    }
+  },
+  {
+    "model": "books.location",
+    "pk": 4,
+    "fields": {
+      "address": "Читальный зал, полка 3",
+      "shelf_code": "R3"
+    }
   }
 ]

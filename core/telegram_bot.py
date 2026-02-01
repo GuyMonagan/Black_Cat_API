@@ -1,5 +1,25 @@
 import requests
 from django.conf import settings
+from users.models import TelegramToken
+
+
+def connect(update, context):
+    try:
+        token = context.args[0]
+    except IndexError:
+        update.message.reply_text("⚠️ Укажи токен: /connect <токен>")
+        return
+
+    try:
+        token_obj = TelegramToken.objects.get(token=token)
+        user = token_obj.user
+        user.telegram_chat_id = update.effective_chat.id
+        user.save()
+        token_obj.delete()  # Удаляем токен после использования
+        update.message.reply_text("✅ Telegram успешно привязан к вашему аккаунту!")
+    except TelegramToken.DoesNotExist:
+        update.message.reply_text("❌ Токен недействителен или устарел.")
+
 
 def send_telegram_message(chat_id: str, message: str) -> bool:
     """

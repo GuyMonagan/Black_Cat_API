@@ -1,4 +1,5 @@
-# 📚Black_Cat_API
+> # 📚Black_Cat_API
+> ### Бэкенд библиотечной системы с Telegram-ботом, ролями и напоминаниями
 
 Backend API для библиотечной системы, разработанный с использованием Django REST Framework. 
 Проект упрощает управление книжным фондом, учётом аренды, отзывами, а также предоставляет 
@@ -47,7 +48,7 @@ cd Black_Cat_API
 
 ### 2. Создайте .env файл
 
-Подставьте актуальные данные
+Подставьте актуальные данные:
 
 ```
 DEBUG=
@@ -70,6 +71,7 @@ CELERY_TASK_SERIALIZER=
 CORS_ALLOWED_ORIGINS=
 
 ```
+
 
 ### 3. Соберите и запустите проект
 
@@ -133,6 +135,14 @@ docker-compose exec web poetry run black .
 В проекте есть скрытая страничка благодарности по адресу:
 http://localhost:8000/thanks/
 
-Не забудь улыбнуться 😊
+Не забудьте улыбнуться 😊
+
+---
+
+## 📬 Автор
+
+Разработчик: GuyMonagan  
+Telegram: [@GuyMonagan](https://t.me/GuyMonagan)  
+Email: werevalkury@gmail.com
 
 ---

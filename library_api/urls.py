@@ -3,7 +3,6 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from books.views import BookViewSet, AuthorViewSet, GenreViewSet, LocationViewSet
 from borrowings.views import BorrowingViewSet
-from users.views import RegisterView, MeView
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -18,6 +17,7 @@ from reports.views import ReportsViewSet
 
 from django.conf import settings
 from django.conf.urls.static import static
+from users.views import RegisterView, MeView, MeUpdateView, GenerateTelegramTokenView
 
 
 schema_view = get_schema_view(
@@ -42,10 +42,18 @@ router.register("reports", ReportsViewSet, basename="reports")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/register/', RegisterView.as_view(), name='register'),
-    path('api/me/', MeView.as_view(), name='me'),
+
+    # User-related endpoints
+    path('api/users/register/', RegisterView.as_view(), name='user-register'),
+    path('api/users/me/', MeView.as_view(), name='user-me'),
+    path('api/users/me/update/', MeUpdateView.as_view(), name='user-me-update'),
+    path('api/users/telegram-token/', GenerateTelegramTokenView.as_view(), name='user-telegram-token'),
+
+    # JWT auth
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    # API routers (books, reviews, borrowings, etc.)
     path('api/', include(router.urls)),
 
     # docs

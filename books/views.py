@@ -1,5 +1,5 @@
 from rest_framework import viewsets, filters
-from .models import Book, Author, Genre, Location
+from .models import Author, Genre, Location
 from .serializers import (
     BookSerializer,
     BookCreateUpdateSerializer,
@@ -7,7 +7,7 @@ from .serializers import (
     GenreSerializer,
     LocationSerializer
 )
-from users.permissions import IsAdmin, IsLibrarianOrAdmin
+from users.permissions import IsAdmin
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Book
 from users.permissions import IsLibrarianOrAdmin

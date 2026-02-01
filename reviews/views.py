@@ -2,11 +2,11 @@ from rest_framework import viewsets
 from .models import Review
 from .serializers import ReviewSerializer, ReviewCreateSerializer
 from rest_framework.permissions import IsAuthenticated
-from .permissions import IsOwner, IsLibrarianOrAdmin
 
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
+from .permissions import IsOwnerOrLibrarianOrAdmin
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
@@ -14,15 +14,20 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action in ['update', 'partial_update', 'destroy']:
-            return [IsOwner() | IsLibrarianOrAdmin()]
+            return [IsOwnerOrLibrarianOrAdmin()]
         elif self.action == 'approve':
-            return [IsLibrarianOrAdmin()]
+            return [IsOwnerOrLibrarianOrAdmin()]
         return [IsAuthenticated()]
 
     def get_queryset(self):
         user = self.request.user
+
+        if self.action == 'approve' and user.is_authenticated:
+            return Review.objects.all()
+
         if user.role in ['admin', 'librarian']:
             return Review.objects.all()
+
         return Review.objects.filter(is_approved=True)
 
     def get_serializer_class(self):

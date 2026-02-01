@@ -1,9 +1,11 @@
 from rest_framework.permissions import BasePermission
 
-class IsOwner(BasePermission):
+class IsOwnerOrLibrarianOrAdmin(BasePermission):
     def has_object_permission(self, request, view, obj):
-        return obj.user == request.user
+        if not request.user.is_authenticated:
+            return False
 
-class IsLibrarianOrAdmin(BasePermission):
-    def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.role in ['librarian', 'admin']
+        return (
+            obj.user == request.user
+            or request.user.role in ['librarian', 'admin']
+        )

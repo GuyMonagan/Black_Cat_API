@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Спасибо!</title>
+  <style>
+    body {
+      background: #111;
+      color: white;
+      text-align: center;
+      font-family: sans-serif;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    h1 {
+      margin-top: 2rem;
+    }
+
+    .wave {
+      animation: wave 2s infinite;
+      position: absolute;
+      top: 200px; /* начальная позиция */
+      left: 50%;
+      transform: translateX(-50%); /* только по X */
+      font-size: 3rem;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .dragging {
+      cursor: grabbing;
+      animation: none;
+      transform: none; /* отключаем transform во время таскания */
+    }
+
+    @keyframes wave {
+      0% { transform: rotate(0deg); }
+      20% { transform: rotate(20deg); }
+      40% { transform: rotate(-10deg); }
+      60% { transform: rotate(10deg); }
+      80% { transform: rotate(-5deg); }
+      100% { transform: rotate(0deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>🐾 Спасибо за внимание!</h1>
+  <div class="wave" id="wave">👋</div>
+
+  <script>
+    const wave = document.getElementById('wave');
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    wave.addEventListener('mousedown', (e) => {
+      const rect = wave.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+      isDragging = true;
+      wave.classList.add('dragging');
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        wave.style.left = `${e.clientX - offsetX}px`;
+        wave.style.top = `${e.clientY - offsetY}px`;
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      wave.classList.remove('dragging');
+    });
+  </script>
+</body>
+</html>

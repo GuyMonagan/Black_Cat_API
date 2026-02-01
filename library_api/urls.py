@@ -16,6 +16,7 @@ from reports.views import ReportsViewSet
 from reviews.views import ReviewViewSet
 from users.views import (GenerateTelegramTokenView, MeUpdateView, MeView,
                          RegisterView)
+from core.views import easter_egg
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -56,6 +57,8 @@ urlpatterns = [
     # docs
     path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="swagger"),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="redoc"),
+    # other
+    path("thanks/", easter_egg, name="easter-egg"),
 ]
 
 if settings.DEBUG:  # dev only

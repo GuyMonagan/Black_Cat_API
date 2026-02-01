@@ -1,12 +1,16 @@
-from django.core.management.base import BaseCommand
 from django.conf import settings
-
-from telegram.ext import Updater, CommandHandler
+from django.core.management.base import BaseCommand
+from telegram.ext import CommandHandler, Updater
 
 from core.telegram_bot import connect
 
 
 class Command(BaseCommand):
+    """
+    Команда для запуска Telegram-бота через Django manage.py.
+    Используется как: python manage.py startbot
+    """
+
     help = "Запускает Telegram-бота"
 
     def handle(self, *args, **options):

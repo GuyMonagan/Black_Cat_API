@@ -1,7 +1,6 @@
-from .views import MeUpdateView
-from .views import MeView
 from django.urls import path
-from .views import GenerateTelegramTokenView
+
+from .views import GenerateTelegramTokenView, MeUpdateView, MeView
 
 urlpatterns = [
     path("me/", MeView.as_view(), name="me"),

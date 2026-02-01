@@ -13,5 +13,6 @@ class CoreConfig(AppConfig):
     - интеграция с Telegram
     - вспомогательные сервисы, не связанные напрямую с API
     """
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'core'
+
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "core"

@@ -1,7 +1,6 @@
 import pytest
-from rest_framework.test import APIClient
-from django.urls import reverse
 from django.contrib.auth import get_user_model
+from rest_framework.test import APIClient
 
 User = get_user_model()
 
@@ -20,7 +19,7 @@ def test_user_can_register(api_client):
         "email": "newuser@lib.com",
         "password": "securepassword123",
         "first_name": "Test",
-        "last_name": "User"
+        "last_name": "User",
     }
     response = api_client.post("/api/users/register/", data)
     assert response.status_code == 201

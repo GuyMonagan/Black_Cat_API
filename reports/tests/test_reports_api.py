@@ -1,11 +1,12 @@
-import pytest
-from rest_framework.test import APIClient
-from django.utils import timezone
 from datetime import timedelta
 
-from users.models import User
-from books.models import Book, Author, Genre
+import pytest
+from django.utils import timezone
+from rest_framework.test import APIClient
+
+from books.models import Author, Book, Genre
 from borrowings.models import Borrowing
+from users.models import User
 
 
 @pytest.fixture
@@ -19,7 +20,9 @@ def sample_data():
     Создаёт пользователя и две книги с общими автором и жанром.
     Возвращает user, book1, book2.
     """
-    user = User.objects.create_user(email="reader@lib.com", password="123", role="reader")
+    user = User.objects.create_user(
+        email="reader@lib.com", password="123", role="reader"
+    )
     author = Author.objects.create(name="Толстой")
     genre = Genre.objects.create(name="Роман")
 
@@ -27,6 +30,7 @@ def sample_data():
     book2 = Book.objects.create(title="Война и мир", author=author, genre=genre)
 
     return user, book1, book2
+
 
 @pytest.mark.django_db
 def test_popular_books(api_client, sample_data):
@@ -45,6 +49,7 @@ def test_popular_books(api_client, sample_data):
     assert isinstance(response.data, list)
     assert response.data[0]["title"] == "Анна Каренина"
     assert response.data[0]["times_borrowed"] == 2
+
 
 @pytest.mark.django_db
 def test_debtors_list(api_client, sample_data):
@@ -69,6 +74,7 @@ def test_debtors_list(api_client, sample_data):
     assert len(response.data) == 1
     assert response.data[0]["user"] == user.email
     assert response.data[0]["book"] == "Анна Каренина"
+
 
 @pytest.mark.django_db
 def test_lost_books(api_client, sample_data):

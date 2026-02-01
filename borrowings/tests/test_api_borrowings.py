@@ -1,8 +1,9 @@
 import pytest
 from rest_framework.test import APIClient
-from users.models import User
-from books.models import Book, Author, Genre
+
+from books.models import Author, Book, Genre
 from borrowings.models import Borrowing
+from users.models import User
 
 
 @pytest.fixture
@@ -15,17 +16,25 @@ def test_reader_can_create_borrowing(api_client):
     """
     Проверяет, что читатель может создать аренду книги.
     """
-    user = User.objects.create_user(email="reader@lib.com", password="123", role="reader")
+    user = User.objects.create_user(
+        email="reader@lib.com", password="123", role="reader"
+    )
     api_client.force_authenticate(user=user)
 
     author = Author.objects.create(name="Толстой")
     genre = Genre.objects.create(name="Роман")
-    book = Book.objects.create(title="Анна Каренина", author=author, genre=genre, total_count=3, available_count=2)
+    book = Book.objects.create(
+        title="Анна Каренина",
+        author=author,
+        genre=genre,
+        total_count=3,
+        available_count=2,
+    )
 
     data = {
         "book": book.id,
         "borrow_date": "2024-01-01",
-        "expected_return_date": "2024-01-20"
+        "expected_return_date": "2024-01-20",
     }
 
     response = api_client.post("/api/borrowings/", data)
@@ -49,12 +58,20 @@ def test_reader_cannot_update_or_delete(api_client):
     """
     Проверяет, что читатель не может редактировать или удалять аренду.
     """
-    reader = User.objects.create_user(email="reader@lib.com", password="123", role="reader")
+    reader = User.objects.create_user(
+        email="reader@lib.com", password="123", role="reader"
+    )
     api_client.force_authenticate(user=reader)
 
     author = Author.objects.create(name="Булгаков")
     genre = Genre.objects.create(name="Фантастика")
-    book = Book.objects.create(title="Мастер и Маргарита", author=author, genre=genre, total_count=2, available_count=1)
+    book = Book.objects.create(
+        title="Мастер и Маргарита",
+        author=author,
+        genre=genre,
+        total_count=2,
+        available_count=1,
+    )
 
     borrowing = Borrowing.objects.create(user=reader, book=book)
 
@@ -72,8 +89,12 @@ def test_reader_sees_only_own_borrowings(api_client):
     """
     Проверяет, что читатель видит только свои аренды.
     """
-    reader = User.objects.create_user(email="reader1@lib.com", password="123", role="reader")
-    other_reader = User.objects.create_user(email="reader2@lib.com", password="123", role="reader")
+    reader = User.objects.create_user(
+        email="reader1@lib.com", password="123", role="reader"
+    )
+    other_reader = User.objects.create_user(
+        email="reader2@lib.com", password="123", role="reader"
+    )
     api_client.force_authenticate(user=reader)
 
     author = Author.objects.create(name="Достоевский")
@@ -94,15 +115,21 @@ def test_admin_sees_all_borrowings(api_client):
     """
     Проверяет, что админ видит все аренды в системе.
     """
-    admin = User.objects.create_user(email="admin@lib.com", password="123", role="admin")
+    admin = User.objects.create_user(
+        email="admin@lib.com", password="123", role="admin"
+    )
     api_client.force_authenticate(user=admin)
 
     author = Author.objects.create(name="Гоголь")
     genre = Genre.objects.create(name="Мистика")
     book = Book.objects.create(title="Вий", author=author, genre=genre)
 
-    user1 = User.objects.create_user(email="user1@lib.com", password="123", role="reader")
-    user2 = User.objects.create_user(email="user2@lib.com", password="123", role="reader")
+    user1 = User.objects.create_user(
+        email="user1@lib.com", password="123", role="reader"
+    )
+    user2 = User.objects.create_user(
+        email="user2@lib.com", password="123", role="reader"
+    )
 
     Borrowing.objects.create(user=user1, book=book)
     Borrowing.objects.create(user=user2, book=book)

@@ -1,12 +1,12 @@
-import pytest
-from datetime import timedelta, date
-from django.utils import timezone
+from datetime import date, timedelta
 from unittest.mock import patch
 
-from users.models import User
-from books.models import Book, Author, Genre
+import pytest
+
+from books.models import Author, Book, Genre
 from borrowings.models import Borrowing
 from core.tasks import send_due_soon_reminders
+from users.models import User
 
 
 @pytest.mark.django_db
@@ -20,7 +20,7 @@ def test_send_due_soon_reminders_sends_messages(mock_send):
         email="reader@lib.com",
         password="123",
         role="reader",
-        telegram_chat_id="987654321"
+        telegram_chat_id="987654321",
     )
 
     author = Author.objects.create(name="Булгаков")
@@ -30,7 +30,7 @@ def test_send_due_soon_reminders_sends_messages(mock_send):
         author=author,
         genre=genre,
         total_count=5,
-        available_count=2
+        available_count=2,
     )
 
     # Создаём аренду с возвратом на завтра
@@ -39,12 +39,12 @@ def test_send_due_soon_reminders_sends_messages(mock_send):
         book=book,
         borrow_date=date.today(),
         expected_return_date=date.today() + timedelta(days=1),
-        is_returned=False
+        is_returned=False,
     )
 
     send_due_soon_reminders()
 
     mock_send.assert_called_once_with(
         "987654321",
-        f"📚 Напоминание!\nЗавтра нужно вернуть книгу: «Мастер и Маргарита».\nНе забудь её отнести в библиотеку 👀"
+        "📚 Напоминание!\nЗавтра нужно вернуть книгу: «Мастер и Маргарита».\nНе забудь её отнести в библиотеку 👀",
     )

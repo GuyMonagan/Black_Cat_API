@@ -1,6 +1,8 @@
-from rest_framework import serializers
-from .models import Book, Author, Genre, Location
 from datetime import datetime
+
+from rest_framework import serializers
+
+from .models import Author, Book, Genre, Location
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -8,9 +10,10 @@ class AuthorSerializer(serializers.ModelSerializer):
     Сериализатор для модели автора.
     Используется для отображения ID и имени автора.
     """
+
     class Meta:
         model = Author
-        fields = ['id', 'name']
+        fields = ["id", "name"]
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -18,9 +21,10 @@ class GenreSerializer(serializers.ModelSerializer):
     Сериализатор для жанров книги.
     Отображает ID и название жанра.
     """
+
     class Meta:
         model = Genre
-        fields = ['id', 'name']
+        fields = ["id", "name"]
 
 
 class LocationSerializer(serializers.ModelSerializer):
@@ -28,9 +32,10 @@ class LocationSerializer(serializers.ModelSerializer):
     Сериализатор местоположения книги.
     Используется для отображения адреса и кода полки.
     """
+
     class Meta:
         model = Location
-        fields = ['id', 'address', 'shelf_code']
+        fields = ["id", "address", "shelf_code"]
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -38,6 +43,7 @@ class BookSerializer(serializers.ModelSerializer):
     Сериализатор для отображения полной информации о книге.
     Используется для чтения данных, включает вложенные сериализаторы.
     """
+
     author = AuthorSerializer()
     genre = GenreSerializer()
     location = LocationSerializer()
@@ -46,9 +52,18 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = [
-            'id', 'title', 'description', 'author', 'genre',
-            'cover', 'total_count', 'available_count', 'location',
-            'publisher', 'isbn', 'publication_year'
+            "id",
+            "title",
+            "description",
+            "author",
+            "genre",
+            "cover",
+            "total_count",
+            "available_count",
+            "location",
+            "publisher",
+            "isbn",
+            "publication_year",
         ]
 
 
@@ -57,12 +72,21 @@ class BookCreateUpdateSerializer(serializers.ModelSerializer):
     Сериализатор для создания и обновления книги.
     Включает валидацию полей total_count, isbn, publication_year и title.
     """
+
     class Meta:
         model = Book
         fields = [
-            'title', 'description', 'author', 'genre',
-            'cover', 'total_count', 'available_count', 'location',
-            'publisher', 'isbn', 'publication_year'
+            "title",
+            "description",
+            "author",
+            "genre",
+            "cover",
+            "total_count",
+            "available_count",
+            "location",
+            "publisher",
+            "isbn",
+            "publication_year",
         ]
 
     def validate(self, data):
@@ -84,7 +108,9 @@ class BookCreateUpdateSerializer(serializers.ModelSerializer):
         Валидация ISBN: только цифры и тире.
         """
         if value and not value.replace("-", "").isdigit():
-            raise serializers.ValidationError("ISBN должен содержать только цифры и тире.")
+            raise serializers.ValidationError(
+                "ISBN должен содержать только цифры и тире."
+            )
         return value
 
     def validate_publication_year(self, value):

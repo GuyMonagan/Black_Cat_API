@@ -1,9 +1,10 @@
-from django.contrib.auth.models import AbstractUser
-from django.db import models
-from django.contrib.auth.base_user import BaseUserManager
-from django.core.validators import FileExtensionValidator
 import uuid
+
 from django.conf import settings
+from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.models import AbstractUser
+from django.core.validators import FileExtensionValidator
+from django.db import models
 
 
 class UserManager(BaseUserManager):
@@ -14,11 +15,12 @@ class UserManager(BaseUserManager):
         create_user(email, password, **extra_fields): Создаёт обычного пользователя.
         create_superuser(email, password, **extra_fields): Создаёт суперпользователя с правами администратора.
     """
+
     use_in_migrations = True
 
     def create_user(self, email, password=None, **extra_fields):
         if not email:
-            raise ValueError('The Email field must be set')
+            raise ValueError("The Email field must be set")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -26,8 +28,8 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("role", "admin")
 
         if extra_fields.get("is_staff") is not True:
@@ -49,9 +51,10 @@ class Role(models.TextChoices):
     - LIBRARIAN: Библиотекарь, управляет книгами и выдачей.
     - ADMIN: Администратор системы, имеет полный доступ.
     """
-    READER = 'reader', 'Reader'
-    LIBRARIAN = 'librarian', 'Librarian'
-    ADMIN = 'admin', 'Admin'
+
+    READER = "reader", "Reader"
+    LIBRARIAN = "librarian", "Librarian"
+    ADMIN = "admin", "Admin"
 
 
 class User(AbstractUser):
@@ -71,6 +74,7 @@ class User(AbstractUser):
     Методы:
         __str__(): Возвращает строковое представление пользователя в виде "email (роль)".
     """
+
     username = None  # удаляем username
     email = models.EmailField(unique=True)  # делаем email уникальным
     telegram_chat_id = models.CharField(max_length=100, blank=True, null=True)
@@ -87,8 +91,8 @@ class User(AbstractUser):
         default=Role.READER,
     )
 
-    USERNAME_FIELD = 'email'  # теперь логин по email
-    REQUIRED_FIELDS = []  
+    USERNAME_FIELD = "email"  # теперь логин по email
+    REQUIRED_FIELDS = []
 
     objects = UserManager()
 

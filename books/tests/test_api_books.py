@@ -1,8 +1,9 @@
 import pytest
-from rest_framework.test import APIClient
-from users.models import User
 from django.urls import reverse
-from books.models import Book, Author, Genre, Location
+from rest_framework.test import APIClient
+
+from books.models import Author, Book, Genre, Location
+from users.models import User
 
 
 @pytest.mark.django_db
@@ -15,8 +16,8 @@ def test_book_list_returns_books():
     response = client.get("/api/books/")
 
     assert response.status_code == 200
-    assert isinstance(response.data['results'], list)
-    assert all("title" in book for book in response.data['results'])
+    assert isinstance(response.data["results"], list)
+    assert all("title" in book for book in response.data["results"])
 
 
 @pytest.mark.django_db
@@ -48,10 +49,13 @@ def test_librarian_can_create_book():
     assert response.data["title"] == "New Book"
 
 
-@pytest.mark.parametrize("user_role, expected_status", [
-    ("reader", 403),
-    ("librarian", 201),
-])
+@pytest.mark.parametrize(
+    "user_role, expected_status",
+    [
+        ("reader", 403),
+        ("librarian", 201),
+    ],
+)
 @pytest.mark.django_db
 def test_book_creation_permissions_by_role(user_role, expected_status):
     """
@@ -59,9 +63,7 @@ def test_book_creation_permissions_by_role(user_role, expected_status):
     """
     client = APIClient()
     user = User.objects.create_user(
-        email=f"{user_role}@example.com",
-        password="testpass",
-        role=user_role
+        email=f"{user_role}@example.com", password="testpass", role=user_role
     )
     client.force_authenticate(user=user)
 
@@ -73,7 +75,7 @@ def test_book_creation_permissions_by_role(user_role, expected_status):
         "author": author.id,
         "genre": genre.id,
         "total_count": 3,
-        "available_count": 3
+        "available_count": 3,
     }
     response = client.post(reverse("book-list"), data)
     assert response.status_code == expected_status
@@ -94,7 +96,7 @@ def test_anonymous_user_cannot_create_book():
         "author": author.id,
         "genre": genre.id,
         "total_count": 3,
-        "available_count": 3
+        "available_count": 3,
     }
 
     response = client.post(reverse("book-list"), data)
@@ -120,16 +122,18 @@ def book_data(db):
 
     books = []
     for i in range(1, 7):
-        books.append(Book.objects.create(
-            title=f"Книга {i}",
-            description="Описание книги",
-            author=author,
-            genre=genre,
-            location=location,
-            total_count=5,
-            available_count=5,
-            publication_year=2000 + i
-        ))
+        books.append(
+            Book.objects.create(
+                title=f"Книга {i}",
+                description="Описание книги",
+                author=author,
+                genre=genre,
+                location=location,
+                total_count=5,
+                available_count=5,
+                publication_year=2000 + i,
+            )
+        )
     return books
 
 
@@ -188,9 +192,7 @@ def test_cannot_create_book_without_title(api_client):
     Проверяет, что создание книги без названия вызывает ошибку валидации.
     """
     user = User.objects.create_user(
-        email="lib@example.com",
-        password="testpass",
-        role="librarian"
+        email="lib@example.com", password="testpass", role="librarian"
     )
     api_client.force_authenticate(user=user)
 
@@ -227,9 +229,7 @@ def test_available_count_cannot_exceed_total(api_client):
     Проверяет, что нельзя создать книгу, у которой доступных копий больше, чем всего.
     """
     user = User.objects.create_user(
-        email="lib@example.com",
-        password="testpass",
-        role="librarian"
+        email="lib@example.com", password="testpass", role="librarian"
     )
     api_client.force_authenticate(user=user)
 

@@ -1,5 +1,7 @@
 import pytest
-from books.models import Author, Genre, Location, Book
+
+from books.models import Author, Book, Genre, Location
+
 
 @pytest.mark.django_db
 def test_author_str():
@@ -9,6 +11,7 @@ def test_author_str():
     author = Author.objects.create(name="Тест Автор")
     assert str(author) == "Тест Автор"
 
+
 @pytest.mark.django_db
 def test_genre_str():
     """
@@ -17,6 +20,7 @@ def test_genre_str():
     genre = Genre.objects.create(name="Хоррор")
     assert str(genre) == "Хоррор"
 
+
 @pytest.mark.django_db
 def test_location_str():
     """
@@ -24,6 +28,7 @@ def test_location_str():
     """
     loc = Location.objects.create(address="Читальный зал", shelf_code="B-12")
     assert str(loc) == "Читальный зал — ячейка B-12"
+
 
 @pytest.mark.django_db
 def test_book_str_and_fields():

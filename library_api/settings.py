@@ -1,30 +1,18 @@
 from pathlib import Path
-from decouple import config, Csv
+
 from celery.schedules import crontab
+from decouple import Csv, config
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = "users.User"
 
 
-CELERY_BROKER_URL = config(
-    "CELERY_BROKER_URL",
-    default="redis://redis:6379/0"
-)
+CELERY_BROKER_URL = config("CELERY_BROKER_URL", default="redis://redis:6379/0")
 
-CELERY_RESULT_BACKEND = config(
-    "CELERY_RESULT_BACKEND",
-    default="redis://redis:6379/0"
-)
+CELERY_RESULT_BACKEND = config("CELERY_RESULT_BACKEND", default="redis://redis:6379/0")
 
-CELERY_ACCEPT_CONTENT = config(
-    "CELERY_ACCEPT_CONTENT",
-    cast=Csv(),
-    default="json"
-)
+CELERY_ACCEPT_CONTENT = config("CELERY_ACCEPT_CONTENT", cast=Csv(), default="json")
 
-CELERY_TASK_SERIALIZER = config(
-    "CELERY_TASK_SERIALIZER",
-    default="json"
-)
+CELERY_TASK_SERIALIZER = config("CELERY_TASK_SERIALIZER", default="json")
 
 """
 Периодические задачи Celery Beat
@@ -33,9 +21,9 @@ CELERY_TASK_SERIALIZER = config(
 и отправляет пользователям Telegram-уведомления
 """
 CELERY_BEAT_SCHEDULE = {
-    'send-due-soon-reminders-every-morning': {
-        'task': 'core.tasks.send_due_soon_reminders',
-        'schedule': crontab(hour=9, minute=0),
+    "send-due-soon-reminders-every-morning": {
+        "task": "core.tasks.send_due_soon_reminders",
+        "schedule": crontab(hour=9, minute=0),
     },
 }
 
@@ -66,37 +54,37 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'django_filters',
-    'rest_framework',
-    'rest_framework_simplejwt',
-    'core.apps.CoreConfig',
-    'drf_yasg',
-    'users',
-    'books',
-    'borrowings',
-    'reviews',
-    'reports'
+    "corsheaders",
+    "django_filters",
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "core.apps.CoreConfig",
+    "drf_yasg",
+    "users",
+    "books",
+    "borrowings",
+    "reviews",
+    "reports",
 ]
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
-        'rest_framework.filters.SearchFilter',
-        'rest_framework.filters.OrderingFilter',
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 5,
 }
 
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -168,12 +156,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "static"
 
 
 # Internationalization
@@ -215,3 +203,5 @@ LOGGING = {
 
 
 SWAGGER_USE_COMPAT_RENDERERS = False
+
+CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", default="", cast=Csv())

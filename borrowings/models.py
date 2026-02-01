@@ -1,7 +1,9 @@
 from django.db import models
 from django.utils import timezone
-from users.models import User
+
 from books.models import Book
+from users.models import User
+
 
 class Borrowing(models.Model):
     """
@@ -17,7 +19,8 @@ class Borrowing(models.Model):
     Методы:
     - __str__: Возвращает строковое представление заимствования в формате "username → book title".
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='borrowings')
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="borrowings")
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
 
     borrow_date = models.DateField(default=timezone.now)

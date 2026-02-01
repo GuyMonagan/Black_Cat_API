@@ -1,5 +1,6 @@
 import requests
 from django.conf import settings
+
 from users.models import TelegramToken
 
 
@@ -36,11 +37,7 @@ def send_telegram_message(chat_id: str, message: str) -> bool:
     token = settings.TELEGRAM_BOT_TOKEN
     url = f"https://api.telegram.org/bot{token}/sendMessage"
 
-    payload = {
-        "chat_id": chat_id,
-        "text": message,
-        "parse_mode": "HTML"
-    }
+    payload = {"chat_id": chat_id, "text": message, "parse_mode": "HTML"}
 
     try:
         response = requests.post(url, data=payload, timeout=5)

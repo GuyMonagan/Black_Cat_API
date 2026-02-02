@@ -23,7 +23,7 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
           cd ~/blackcat
-          git pull origin main
+          git pull origin deploy
           docker compose down
           docker compose up -d --build
         EOF

@@ -22,8 +22,10 @@ jobs:
     - name: Deploy to server
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          set -e
           cd ~/blackcat
           git pull origin develop
-          docker compose -f docker-compose.yml -f docker-compose.prod.yml down
-          docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+          docker compose -f docker-compose.prod.yml down
+          docker compose -f docker-compose.prod.yml up -d --build
+          docker compose -f docker-compose.prod.yml logs -f web | tee deploy.log | grep -iE "error|traceback" || echo "No errors found"
         EOF

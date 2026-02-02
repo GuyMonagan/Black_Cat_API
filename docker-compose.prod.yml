@@ -5,14 +5,45 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    command: poetry run gunicorn library_api.wsgi:application --bind 0.0.0.0:8000
-    environment:
-      DJANGO_SETTINGS_MODULE: library_api.settings
+    command: >
+      sh -c "
+        poetry run python manage.py migrate &&
+        poetry run python manage.py collectstatic --noinput &&
+        poetry run gunicorn library_api.wsgi:application --bind 0.0.0.0:8000
+      "
     env_file:
       - .env
+    environment:
+      DJANGO_SETTINGS_MODULE: library_api.settings
     volumes:
       - static_volume:/app/static
       - media_volume:/app/media
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    command: poetry run celery -A library_api worker -l info
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    command: poetry run celery -A library_api beat -l info
+    env_file:
+      - .env
     depends_on:
       - db
       - redis
@@ -26,36 +57,15 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:7
     restart: always
-
-  celery:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: celery -A library_api worker --loglevel=info
-    volumes:
-      - .:/app
-    depends_on:
-      - redis
-      - db
-    env_file:
-      - .env
-
-  celery-beat:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: celery -A library_api beat --loglevel=info
-    volumes:
-      - .:/app
-    depends_on:
-      - redis
-      - db
-    env_file:
-      - .env
 
   nginx:
     image: nginx:latest

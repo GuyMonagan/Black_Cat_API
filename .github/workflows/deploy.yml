@@ -27,5 +27,6 @@ jobs:
           git pull --rebase origin develop
           docker compose -f docker-compose.prod.yml down
           docker compose -f docker-compose.prod.yml up -d --build
-          docker compose -f docker-compose.prod.yml logs -f web | tee deploy.log | grep -iE "error|traceback" || echo "No errors found"
+          docker compose ps
+          docker compose logs web --tail=50 | grep -iE "error|traceback" || echo "No errors found"
         EOF

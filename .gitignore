@@ -164,3 +164,4 @@ __marimo__/
 !.env.example
 !ci.yml
 !deploy.yml
+!docker-compose.prod.yml

@@ -47,6 +47,7 @@ jobs:
           DB_HOST: localhost
           DB_PORT: 5432
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
           poetry run pytest --cov=. --cov-report=xml
 

@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    command: poetry run gunicorn library_api.wsgi:application --bind 0.0.0.0:8000
     environment:
       DJANGO_SETTINGS_MODULE: core.settings
     env_file:

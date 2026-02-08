@@ -66,6 +66,7 @@ services:
   redis:
     image: redis:7
     restart: always
+    command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru
 
   nginx:
     image: nginx:latest
